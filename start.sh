@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Starts a remote sbatch jobs and sets up correct port forwarding.
-# Sample usage: bash start.sh sherlock/singularity-jupyter 
+# Sample usage: bash start.sh sherlock/singularity-jupyter
 #               bash start.sh sherlock/singularity-jupyter /home/users/raphtown
 #               bash start.sh sherlock/singularity-jupyter /home/users/raphtown
 
@@ -45,7 +45,7 @@ echo "== Uploading sbatch script =="
 scp $FORWARD_SCRIPT ${RESOURCE}:$RESOURCE_HOME/forward-util/
 
 # adjust PARTITION if necessary
-set_partition
+#set_partition
 echo
 
 echo "== Submitting sbatch =="
@@ -58,7 +58,22 @@ command="sbatch
     --error=$RESOURCE_HOME/forward-util/$SBATCH_NAME.err
     --mem=$MEM
     --time=$TIME
-    $RESOURCE_HOME/forward-util/$SBATCH_NAME $PORT \"${@:2}\""
+    --cpus-per-task=$CPU
+    --signal=$SIGNAL
+    --mail-type=$MAIL_TYPE"
+
+if [ ! -z $GPU ]
+then
+    command="$command --gres gpu:$GPU"
+fi
+
+if [ ! -z $CONSTRAINTS ]
+then
+    command="$command -C \"$CONSTRAINTS\""
+fi
+
+
+command="$command $RESOURCE_HOME/forward-util/$SBATCH_NAME $PORT \"${@:2}\""
 
 echo ${command}
 ssh ${RESOURCE} ${command}

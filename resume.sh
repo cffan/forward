@@ -12,6 +12,10 @@ source params.sh
 
 NAME="${1}"
 
+if [ $# == 2 ]; then
+    PORT=$2
+fi
+
 # The user is required to specify port
 
 echo "ssh ${RESOURCE} squeue --name=$NAME --user=$FORWARD_USERNAME -o "%N" -h"

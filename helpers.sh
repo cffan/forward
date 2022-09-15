@@ -11,9 +11,9 @@ function set_forward_script() {
     FOUND="no"
     echo "== Finding Script =="
 
-    declare -a FORWARD_SCRIPTS=("sbatches/${RESOURCE}/$SBATCH" 
+    declare -a FORWARD_SCRIPTS=("sbatches/${RESOURCE}/$SBATCH"
                                 "sbatches/$SBATCH"
-                                "${RESOURCE}/$SBATCH" 
+                                "${RESOURCE}/$SBATCH"
                                 "$SBATCH");
 
     for FORWARD_SCRIPT in "${FORWARD_SCRIPTS[@]}"
@@ -46,7 +46,7 @@ function check_previous_submit() {
 
     echo "== Checking for previous notebook =="
     PREVIOUS=`ssh ${RESOURCE} squeue --name=$NAME --user=$FORWARD_USERNAME -o "%R" -h`
-    if [ -z "$PREVIOUS" -a "${PREVIOUS+xxx}" = "xxx" ]; 
+    if [ -z "$PREVIOUS" -a "${PREVIOUS+xxx}" = "xxx" ];
         then
             echo "No existing ${NAME} jobs found, continuing..."
         else
@@ -80,7 +80,7 @@ function get_machine() {
       do
                                                                   # nodelist
           MACHINE=`ssh ${RESOURCE} squeue --name=$NAME --user=$FORWARD_USERNAME -o "%N" -h`
-    
+
           if [[ "$MACHINE" != "" ]]
           then
               echo "Attempt ${ATTEMPT}: resources allocated to ${MACHINE}!.."  1>&2
