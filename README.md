@@ -37,7 +37,7 @@ bash resume.sh py3-jupyter
 If you want to ssh into the compute node that runs the jupyter notebook
 ```
 # On login node
-ssh `squeue --name=py3-jupyter --user=stfan -o %N -h`
+ssh `squeue --name=py3-jupyter --user=your_id -o %N -h`
 ```
 
 ## Tensorboard
